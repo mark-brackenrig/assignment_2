@@ -160,4 +160,3 @@ def test_classification(test_data, model, criterion, batch_size, device, generat
     return test_loss / len(test_data), test_acc / len(test_data)
 
 
-def generate_conful
