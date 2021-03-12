@@ -36,7 +36,7 @@ def hello_world():
 
     Responses
     ---------
-    200: 
+    200: Hello World! App running.
 
     """
     print("Hello World")
