@@ -8,7 +8,9 @@ COPY main.py .
 
 COPY ./models /models
 
-COPY ./src /src
+COPY ./src/models /src/models
+
+COPY ./src/data /src/data
 
 EXPOSE 80
 
