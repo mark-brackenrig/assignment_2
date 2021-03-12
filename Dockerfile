@@ -1,16 +1,17 @@
 FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
 
-COPY requirements.txt .
+WORKDIR beer_app
 
-RUN pip3 install -r requirements.txt
+COPY requirements.txt beer_app/requirements.txt
 
-COPY main.py .
+RUN pip3 install -r beer_app/requirements.txt
 
-COPY ./models /models
+COPY main.py beer_app/main.py
 
-COPY ./src/models /src/models
+COPY ./models beer_app/models
 
-COPY ./src/data /src/data
+COPY src beer_app/src
+
 
 EXPOSE 80
 
