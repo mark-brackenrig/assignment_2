@@ -1,6 +1,6 @@
 FROM tiangolo/uvicorn-gunicorn-fastapi:python3.7
 
-WORKDIR beer_app
+WORKDIR /beer_app
 
 COPY requirements.txt beer_app/requirements.txt
 
