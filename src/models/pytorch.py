@@ -52,13 +52,16 @@ class PytorchMultiClass(nn.Module):
     def __init__(self, num_features,class_num):
         super(PytorchMultiClass, self).__init__()
         
-        self.layer_1 = nn.Linear(num_features, 256)
-        self.layer_out = nn.Linear(256,class_num)
+        self.layer_1 = nn.Linear(num_features, 104)
+        self.layer_2 = nn.Linear(104, 104)
+        self.layer_3 = nn.ReLU()
+        self.layer_out = nn.Linear(104,class_num)
         self.softmax = nn.Softmax(dim=1)
 
     def forward(self, x):
         x = F.dropout(F.relu(self.layer_1(x)), training=self.training)
         x = self.layer_out(x)
         return self.softmax(x)
+    
     
     
