@@ -8,6 +8,8 @@ COPY main.py .
 
 COPY ./models /models
 
+COPY ./src /src
+
 EXPOSE 80
 
 CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "-c", "/gunicorn_conf.py", "main:app"]
