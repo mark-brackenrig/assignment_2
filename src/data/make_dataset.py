@@ -35,7 +35,7 @@ def process_data(data, n_largest=1000):
     Takes raw data, drops unnecessary columns and one hot encodes brewery name, and splits data into X and y sets.
     note that I have set the onehotencoder to take the n_largest breweries and ignore the others.
     """
-    drop_columns = ['brewery_id','review_time','review_profilename','beer_name','beer_beerid', 'beer_abv']
+    drop_columns = ['brewery_id','review_overall','review_time','review_profilename','beer_name','beer_beerid', 'beer_abv']
     data.drop(columns = drop_columns, inplace=True)
     print('columns dropped')
     ohe = OneHotEncoder(sparse=False, handle_unknown = 'ignore')

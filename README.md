@@ -1,7 +1,60 @@
-assignment_2
+Assignment 2 ADSI
 ==============================
 
-Assignment 2 ADSI
+This repo is the project code for a beer style prediction API. This API can be found at https://afternoon-ocean-26363.herokuapp.com/
+
+The purpose of this project is to accurately predict the beer style of a particular beer based on a BeerAdvocates users’ rating of the beer. Fields include criteria such as appearance, aroma, palate or taste, as well as the name of hte brewery.
+
+Available Endpoints
+------------
+
+* `/` GET: brief description of the project objectives, list of endpoints, expected input parameters and output format of the model, link to the Github repo. No request body or parameters required.
+* `/health/` GET: a standard 'hello world' response. No request body or parameters required.
+* `/beer/type/` POST: returns a prediction for a single input only. Example request body:
+```json
+{
+  "review_overall": 1,
+  "review_aroma": 1,
+  "review_appearance": 1,
+  "review_palate": 1,
+  "review_taste": 1,
+  "brewery_names": "New England Brewing Co."
+}
+```
+Example Response:
+```json
+{"class_name": "American Adjunct Lager"}
+```
+* `beers/types/` POST: Returns predictions for multiple inputs. Example request body"
+```json
+{
+  "review_overall": [1,2],
+  "review_aroma": [1,2],
+  "review_appearance": [1,2],
+  "review_palate": [3,2],
+  "review_taste": [4,2],
+  "brewery_names": ["New England Brewing Co.", "all strings accepted"]
+}
+```
+Example response:
+```json
+{"class_name": ["American IPA", "American Adjunct Lager"]}
+```
+
+Getting Started
+------------
+This project runs on Python 3.7. It has not been tested on any other version of python. To launch the API ensure docker is installed.
+
+```bash
+docker build -t assignment_2 .
+docker run -dit --name assignment_run -p 80:80 assignment_2
+```
+
+
+
+Deployments
+------------
+
 
 Project Organization
 ------------

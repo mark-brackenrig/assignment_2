@@ -8,7 +8,7 @@ from src.data import make_dataset
 import pandas as pd
 from src.models.pytorch import get_device, PytorchDataset
 
-def create_dataset(request_body, ohe, scaler):
+def create_beers_dataset(request_body, ohe, scaler):
     """
     Converts the request body of the API to a numpy array that can be read by the model.
     Parameters
@@ -16,16 +16,30 @@ def create_dataset(request_body, ohe, scaler):
     request_body: dict
     the request body from the API 
     """
-    X = pd.DataFrame(request_body)
-    X.columns = ['key','value']
-    X.set_index('key', inplace = True)
-    X = X.transpose().reset_index(drop=True)
+    X = pd.DataFrame(request_body.dict())
     val = np.array(X['brewery_names']).reshape(-1,1)
     brewery_names = ohe.transform(val)
     X.drop(columns = 'brewery_names',inplace = True, axis = 1)
     X = scaler.transform(X)
     X = np.concatenate([X,brewery_names],axis = 1)
     return X
+
+def create_beer_dataset(request_body, ohe, scaler):
+    """
+    Converts the request body of the API to a numpy array that can be read by the model.
+    Parameters
+    ----------
+    request_body: dict
+    the request body from the API 
+    """
+    X = pd.DataFrame(request_body.dict(),index = [0])
+    val = np.array(X['brewery_names']).reshape(-1,1)
+    brewery_names = ohe.transform(val)
+    X.drop(columns = 'brewery_names',inplace = True, axis = 1)
+    X = scaler.transform(X)
+    X = np.concatenate([X,brewery_names],axis = 1)
+    return X
+
 
 def predict(test_data, model, device,y_encoder, generate_batch=None):
     """Calculate performance of a Pytorch multi-class classification model
@@ -74,6 +88,9 @@ def predict(test_data, model, device,y_encoder, generate_batch=None):
         prediction = output.argmax(1)[0].item()
         class_name = make_dataset.inverse_transformer(np.array(prediction).reshape(-1,1),y_encoder) 
         print(class_name.flatten())
-        results.append({'class_name':class_name.flatten().tolist()})
+        results.append(class_name.flatten().tolist()[0])
+    if len(results) == 1:
+        results = results[0]
+    results = {"class_name": results}
     return results
 

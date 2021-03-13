@@ -53,8 +53,6 @@ class PytorchMultiClass(nn.Module):
         super(PytorchMultiClass, self).__init__()
         
         self.layer_1 = nn.Linear(num_features, 104)
-        self.layer_2 = nn.Linear(104, 104)
-        self.layer_3 = nn.ReLU()
         self.layer_out = nn.Linear(104,class_num)
         self.softmax = nn.Softmax(dim=1)
 
