@@ -3,11 +3,14 @@ from starlette.responses import JSONResponse
 from joblib import load
 import pandas as pd
 import torch
+import torch.nn.functional as F
 import pickle as pkl
 from pydantic import BaseModel
 from typing import List
 from src.models.predict_model import create_beers_dataset, create_beer_dataset, predict
 from src.models.pytorch import PytorchMultiClass,get_device
+import markdown
+from fastapi.responses import HTMLResponse
 
 ohe = pkl.load(open('models/ohe.pkl','rb'))
 scaler = pkl.load(open('models/scaler.pkl','rb'))
@@ -21,10 +24,19 @@ app = FastAPI()
 @app.get('/')
 def display_project_description():
     """
-        Displaying a brief description of the project objectives, list of endpoints, expected input parameters  and output format of the model, link to the Github repo related to this project
+    Displaying a brief description of the project objectives, list of endpoints, expected input parameters  and output format of the model, link to the Github repo related to this project.
+
+    Parameters
+    ----------
+    None
+
     """
-        
-    return {'Hello World Placeholder'}
+    with open('README.md', 'r') as content_file:
+        content = content_file.read()
+    
+    html = markdown.markdown(content)
+
+    return HTMLResponse(content = html, status_code=200)
 
 @app.get('/health/')
 def hello_world():
@@ -40,7 +52,6 @@ def hello_world():
     200: Hello World! App running.
 
     """
-    print("Hello World")
     return {"Hello World! App running."}
    
 class beerType(BaseModel):
@@ -78,7 +89,6 @@ def predict_beer_type(request_body: beerType):
 
     Parameters
     ----------
-    * **review_overall** (float): Overall score given by reviewer - ranges from 1 to 5.
     * **review_aroma** (float): Score given by reviewer regarding beer aroma- ranges from 1 to 5.
     * **review_appearance** (float): Score given by reviewer regarding beer appearance - ranges from 1 to 5.
     * **review_palate** (float): Score given by reviewer regarding beer palate- ranges from 1 to 5.
@@ -121,6 +131,17 @@ class beersTypeOut(BaseModel):
 
 @app.post('/beers/type/', response_model = beersTypeOut)
 def predict_beers_type(request_body: beersType):
+    """
+    Returns beer style predictions for multiple inputs.
+
+    Parameters
+    ----------
+    * **review_aroma** (list - float): Score given by reviewer regarding beer aroma- ranges from 1 to 5.
+    * **review_appearance** (list - float): Score given by reviewer regarding beer appearance - ranges from 1 to 5.
+    * **review_palate** (list - float): Score given by reviewer regarding beer palate- ranges from 1 to 5.
+    * **review_taste** (list - float): Score given by reviewer regarding beer taste - ranges from 1 to 5.
+    * **brwery_name** (list - string): Name of brewery - ranges from 1 to 5.
+    """
     data = create_beers_dataset(request_body,ohe,scaler)
     device = get_device()
     prediction = predict(data,model, device,y_encoder)
@@ -129,9 +150,16 @@ def predict_beers_type(request_body: beersType):
 
 @app.get('/model/architecture/')
 def model_architecture():
+    """
+    returns the model architecture. Manually added activation and regularisation layers added through the functional api.
+    Parameters
+    ----------
+    None
+
+    """
     values = {"layer_1": str(model.layer_1),
-    "layer_2": str(model.layer_2),
-    "layer_3": str(model.layer_3),
+    "activation": "relu",
+    "regularisation": "dropout",
     "layer_out": str(model.layer_out),
     "softmax": str(model.softmax)}
 
