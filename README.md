@@ -13,7 +13,6 @@ Available Endpoints
 * `/beer/type/` POST: returns a prediction for a single input only. Example request body:
 ```json
 {
-  "review_overall": 1,
   "review_aroma": 1,
   "review_appearance": 1,
   "review_palate": 1,
@@ -28,7 +27,6 @@ Example Response:
 * `beers/types/` POST: Returns predictions for multiple inputs. Example request body"
 ```json
 {
-  "review_overall": [1,2],
   "review_aroma": [1,2],
   "review_appearance": [1,2],
   "review_palate": [3,2],
