@@ -80,6 +80,10 @@ To deploy the app:
 git push heroku master
 ```
 
+Running Tests
+------------
+Unit tests have not been developed for this repo. Manual testing is advised through an API development platform such as Postman.
+
 Project Organization
 ------------
 

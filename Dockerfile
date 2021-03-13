@@ -8,6 +8,8 @@ RUN pip3 install -r requirements.txt
 
 COPY main.py .
 
+COPY README.md .
+
 COPY ./models /models
 
 COPY ./src /src
