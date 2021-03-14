@@ -34,7 +34,7 @@ def display_project_description():
     with open('README.md', 'r') as content_file:
         content = content_file.read()
     
-    html = markdown.markdown(content)
+    html = markdown.markdown(content, extensions=['codehilite', 'fenced_code'])
 
     return HTMLResponse(content = html, status_code=200)
 

@@ -1,10 +1,12 @@
 Assignment 2 ADSI
 ==============================
 
-This repo is the project code for a beer style prediction API. The purpose of this project is to accurately predict the beer style of a particular beer based on a BeerAdvocates users’ rating of the beer. Fields include criteria such as appearance, aroma, palate or taste, as well as the name of hte brewery.
+Project description
+------------
+This repo is the project code for a beer style prediction API. The purpose of this project is to accurately predict the beer style of a particular beer based on a BeerAdvocates users’ rating of the beer. Fields include criteria such as appearance, aroma, palate or taste, as well as the name of the brewery.
 
-This API can be found at:  https://afternoon-ocean-26363.herokuapp.com/
-The github repository can be found at: https://github.com/mark-brackenrig/assignment_2
+* This API can be found at:  <https://afternoon-ocean-26363.herokuapp.com/>
+* The github repository can be found at: <https://github.com/mark-brackenrig/assignment_2>
 
 Available Endpoints
 ------------
@@ -60,6 +62,7 @@ This project runs on Python 3.7. It has not been tested on any other version of 
 docker build -t assignment_2 .
 docker run -dit --name assignment_run -p 80:80 assignment_2
 ```
+
 To stop running the container:
 
 ```bash

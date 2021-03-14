@@ -61,10 +61,7 @@ def predict(test_data, model, device,y_encoder, generate_batch=None):
 
     Returns
     -------
-    Float
-        Loss score
-    Float:
-        Accuracy Score
+    results: dictionary of resulting class
     """    
     # Set model to evaluation mode
     model.eval()
